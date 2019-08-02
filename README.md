@@ -1,5 +1,17 @@
-# chroma
+<div align="center">
+
+<img  align="center" width="50%" src="https://user-images.githubusercontent.com/35271042/62403727-34380180-b544-11e9-844a-6fe8d3779c4d.png" />
+<hr>
 A Figma plugin for creating bulk color styles from selection
+
+![sample](https://user-images.githubusercontent.com/35271042/62403691-fd61eb80-b543-11e9-821d-b38e240cff17.png)
+
+</div>
+
+## How to use
+Simply select any objects that have a fill color, run the plugin, and it will generate the color styles for you automatically. 
+
+The color style name will be the same as your layer name. You can also add a "/" in your layer name to create color style groups.
 
 ## Building from source
 This plugin template uses Typescript. If you are familiar with Javascript, Typescript will
