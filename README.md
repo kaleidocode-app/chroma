@@ -5,9 +5,10 @@
 <hr>
 
 A Figma plugin for creating bulk color styles from selection. 
+
 <br>
 
-<img align="center" width="400" src="https://user-images.githubusercontent.com/35271042/62403691-fd61eb80-b543-11e9-821d-b38e240cff17.png" />. 
+<img align="center" width="400" src="https://user-images.githubusercontent.com/35271042/62403691-fd61eb80-b543-11e9-821d-b38e240cff17.png" />
 
 </div>
 
