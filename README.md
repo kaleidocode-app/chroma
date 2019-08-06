@@ -17,6 +17,9 @@ Simply select any objects that have a fill color, run the plugin, and it will ge
 
 The color style name will be the same as your layer name. You can also add a "/" in your layer name to create color style groups.
 
+![gif](https://user-images.githubusercontent.com/35271042/62562846-bf601280-b836-11e9-9400-0f818c9d8fc5.gif)
+
+
 ## Building from source
 This plugin template uses Typescript. If you are familiar with Javascript, Typescript will
 look very familiar. In fact, valid Javascript code is already valid Typescript code.
