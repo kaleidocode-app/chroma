@@ -7,7 +7,9 @@ let selection = figma.currentPage.selection;
 selection.forEach(c => {
     ref.push(c);
 });
-ref.sort((one, two) => (one > two ? -1 : 1));
+ref.sort(function (a, b) {
+    return b - a;
+});
 ref.forEach((layer) => {
     // make sure it's a vector
     if (layer.type === "RECTANGLE" || layer.type === "ELLIPSE" || layer.type === "POLYGON" || layer.type === "VECTOR") {
