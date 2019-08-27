@@ -8,8 +8,9 @@ selection.forEach(c => {
     ref.push(c);
 });
 ref.sort(function (a, b) {
-    return b - a;
+    return a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' });
 });
+ref.reverse();
 ref.forEach((layer) => {
     // make sure it's a vector
     if (layer.type === "RECTANGLE" || layer.type === "ELLIPSE" || layer.type === "POLYGON" || layer.type === "VECTOR") {

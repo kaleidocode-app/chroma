@@ -11,8 +11,9 @@ selection.forEach(c => {
 })
 
 ref.sort(function (a, b) {
-  return b - a
-})
+  return a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' });
+});
+ref.reverse()
 
 ref.forEach((layer:any) => {
 
