@@ -13,7 +13,8 @@ selection.forEach(c => {
 ref.sort(function (a, b) {
   return a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' });
 });
-ref.reverse()
+// TODO: turn this into an dropdown option
+// ref.reverse()
 
 ref.forEach((layer:any) => {
 

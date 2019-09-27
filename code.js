@@ -10,7 +10,8 @@ selection.forEach(c => {
 ref.sort(function (a, b) {
     return a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' });
 });
-ref.reverse();
+// TODO: turn this into an dropdown option
+// ref.reverse()
 ref.forEach((layer) => {
     // make sure it's a vector
     if (layer.type === "RECTANGLE" || layer.type === "ELLIPSE" || layer.type === "POLYGON" || layer.type === "VECTOR") {
