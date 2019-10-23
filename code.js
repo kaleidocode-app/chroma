@@ -18,8 +18,10 @@ ref.forEach((layer) => {
         if (!layer.fillStyleId) {
             //creating the paint style
             var newStyle = figma.createPaintStyle();
+            var hex = findTheHEX(layer.fills[0].color.r, layer.fills[0].color.g, layer.fills[0].color.b);
             //naming the paint style with the layer name
             newStyle.name = layer.name;
+            newStyle.description = hex.toUpperCase();
             //assigning the color
             newStyle.paints = [{
                     type: layer.fills[0].type,
@@ -49,4 +51,18 @@ if (ignoredCounter > 0) {
 }
 else {
     figma.closePlugin();
+}
+function findTheHEX(red, green, blue) {
+    var redHEX = rgbToHex(red);
+    var greenHEX = rgbToHex(green);
+    var blueHEX = rgbToHex(blue);
+    return redHEX + greenHEX + blueHEX;
+}
+function rgbToHex(rgb) {
+    rgb = Math.floor(rgb * 255);
+    var hex = Number(rgb).toString(16);
+    if (hex.length < 2) {
+        hex = '0' + hex;
+    }
+    return hex;
 }

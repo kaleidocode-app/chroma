@@ -25,9 +25,11 @@ ref.forEach((layer:any) => {
       
       //creating the paint style
       var newStyle = figma.createPaintStyle()
+      var hex = findTheHEX(layer.fills[0].color.r, layer.fills[0].color.g, layer.fills[0].color.b)
 
       //naming the paint style with the layer name
       newStyle.name = layer.name
+      newStyle.description = hex.toUpperCase()
 
       //assigning the color
       newStyle.paints = [{
@@ -62,4 +64,21 @@ if(ignoredCounter > 0){
   figma.closePlugin('⚠️ Warning: ' + ignoredCounter + ' color style(s) already exist and can\'t be added')
 } else {
   figma.closePlugin();
+}
+
+function findTheHEX(red:any, green:any, blue:any) {
+  var redHEX = rgbToHex(red)
+  var greenHEX = rgbToHex(green)
+  var blueHEX = rgbToHex(blue)
+
+  return redHEX + greenHEX + blueHEX
+}
+
+function rgbToHex(rgb:any) {
+  rgb = Math.floor(rgb * 255)
+  var hex = Number(rgb).toString(16)
+  if (hex.length < 2) {
+    hex = '0' + hex
+  }
+  return hex
 }
