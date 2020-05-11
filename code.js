@@ -15,22 +15,26 @@ ref.sort(function (a, b) {
 ref.forEach((layer) => {
     // make sure it's a vector
     if (layer.type === "RECTANGLE" || layer.type === "ELLIPSE" || layer.type === "POLYGON" || layer.type === "VECTOR") {
-        if (!layer.fillStyleId) {
+        var fill = layer.fills[0];
+        if (!fill) {
+            // Just skip.
+        }
+        else if (!layer.fillStyleId) {
             //creating the paint style
             var newStyle = figma.createPaintStyle();
-            var hex = findTheHEX(layer.fills[0].color.r, layer.fills[0].color.g, layer.fills[0].color.b);
+            var hex = findTheHEX(fill.color.r, fill.color.g, fill.color.b);
             //naming the paint style with the layer name
             newStyle.name = layer.name;
             newStyle.description = hex.toUpperCase();
             //assigning the color
             newStyle.paints = [{
-                    type: layer.fills[0].type,
+                    type: fill.type,
                     color: {
-                        r: layer.fills[0].color.r,
-                        g: layer.fills[0].color.g,
-                        b: layer.fills[0].color.b
+                        r: fill.color.r,
+                        g: fill.color.g,
+                        b: fill.color.b
                     },
-                    opacity: layer.fills[0].opacity
+                    opacity: fill.opacity
                 }];
             //applying the style to the selected layer
             layer.fillStyleId = newStyle.id;
