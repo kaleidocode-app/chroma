@@ -2,9 +2,8 @@ if (figma.currentPage.selection.length <= 0){
   figma.closePlugin('Please select a Rectanle, Ellipse, or Polygon before running this plugin')
 }
 
-let ignoredCounter = 0
+let addedCounter = 0
 let ref = []
-let colors = []
 let selection = figma.currentPage.selection
 
 selection.forEach(c => {
@@ -19,62 +18,45 @@ ref.sort(function (a, b) {
 
 ref.forEach((layer:any) => {
 
-  // make sure it's a vector
-  if (layer.type === "RECTANGLE" || layer.type === "ELLIPSE" || layer.type === "POLYGON" || layer.type === "VECTOR") {
-
-    if(!layer.fillStyleId){
-
-      //creating the paint style
-      var newStyle = figma.createPaintStyle()
-
-      // add hex if it's only one color
-      if(layer.fills.length == 1){
-        newStyle.description = findTheHEX(layer.fills[0].color.r, layer.fills[0].color.g, layer.fills[0].color.b).toUpperCase()
-      }
-
-      //naming the paint style with the layer name
-      newStyle.name = layer.name
-
-      //assigning the colors
-      layer.fills.forEach(item => {
-        colors.push({
-          type: item.type,
-          visible: item.visible,
-          blendMode: item.blendMode,
-          color: {
-            r: item.color.r,
-            g: item.color.g,
-            b: item.color.b
-          },
-          opacity: item.opacity
-          })
-      });
-
-      newStyle.paints = colors
-
-      //applying the style to the selected layer
-      layer.fillStyleId = newStyle.id
-
-      // console log the output
-      console.log('🎉 Created style ' + layer.name)
-
-    } else {
-      ignoredCounter++
+  // fills
+  if (layer.fills.length > 0) {
+    let colors = []
+    let newStyle = figma.createPaintStyle()
+    if (layer.fills.length == 1) {
+      newStyle.description = findTheHEX(layer.fills[0].color.r, layer.fills[0].color.g, layer.fills[0].color.b).toUpperCase()
     }
 
+    newStyle.name = layer.name
+    layer.fills.forEach(item => {
+      colors.push(item)
+    });
+    newStyle.paints = colors
+    layer.fillStyleId = newStyle.id
 
-  } else {
-    figma.closePlugin('Please select a Rectanle, Ellipse, or Polygon before running this plugin')
+    colors.length = 0
+    addedCounter++
+  }
+
+  // strokes
+  if (layer.strokes.length > 0) {
+    console.log(layer)
+    let strokes = []
+    let newStyle = figma.createPaintStyle()
+    newStyle.name = layer.name
+    layer.strokes.forEach(item => {
+      strokes.push(item)
+    });
+    newStyle.paints = strokes
+    layer.strokeStyleId = newStyle.id
+
+    strokes.length = 0
+    addedCounter++
   }
 });
 
 figma.currentPage.selection = []
 
-if(ignoredCounter > 0){
-  figma.closePlugin('⚠️ Warning: ' + ignoredCounter + ' color style(s) already exist and can\'t be added')
-} else {
-  figma.closePlugin();
-}
+figma.closePlugin(`🎉 ${addedCounter} styles added!`)
 
 function findTheHEX(red:any, green:any, blue:any) {
   var redHEX = rgbToHex(red)
