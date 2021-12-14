@@ -19,10 +19,12 @@ ref.forEach((layer) => {
         if (!layer.fillStyleId) {
             //creating the paint style
             var newStyle = figma.createPaintStyle();
-            var hex = findTheHEX(layer.fills[0].color.r, layer.fills[0].color.g, layer.fills[0].color.b);
+            // add hex if it's only one color
+            if (layer.fills.length == 1) {
+                newStyle.description = findTheHEX(layer.fills[0].color.r, layer.fills[0].color.g, layer.fills[0].color.b).toUpperCase();
+            }
             //naming the paint style with the layer name
             newStyle.name = layer.name;
-            newStyle.description = hex.toUpperCase();
             //assigning the colors
             layer.fills.forEach(item => {
                 colors.push({
