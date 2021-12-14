@@ -3,6 +3,7 @@ if (figma.currentPage.selection.length <= 0) {
 }
 let ignoredCounter = 0;
 let ref = [];
+let colors = [];
 let selection = figma.currentPage.selection;
 selection.forEach(c => {
     ref.push(c);
@@ -22,16 +23,21 @@ ref.forEach((layer) => {
             //naming the paint style with the layer name
             newStyle.name = layer.name;
             newStyle.description = hex.toUpperCase();
-            //assigning the color
-            newStyle.paints = [{
-                    type: layer.fills[0].type,
+            //assigning the colors
+            layer.fills.forEach(item => {
+                colors.push({
+                    type: item.type,
+                    visible: item.visible,
+                    blendMode: item.blendMode,
                     color: {
-                        r: layer.fills[0].color.r,
-                        g: layer.fills[0].color.g,
-                        b: layer.fills[0].color.b
+                        r: item.color.r,
+                        g: item.color.g,
+                        b: item.color.b
                     },
-                    opacity: layer.fills[0].opacity
-                }];
+                    opacity: item.opacity
+                });
+            });
+            newStyle.paints = colors;
             //applying the style to the selected layer
             layer.fillStyleId = newStyle.id;
             // console log the output

@@ -4,6 +4,7 @@ if (figma.currentPage.selection.length <= 0){
 
 let ignoredCounter = 0
 let ref = []
+let colors = []
 let selection = figma.currentPage.selection
 
 selection.forEach(c => {
@@ -20,9 +21,9 @@ ref.forEach((layer:any) => {
 
   // make sure it's a vector
   if (layer.type === "RECTANGLE" || layer.type === "ELLIPSE" || layer.type === "POLYGON" || layer.type === "VECTOR") {
-    
+
     if(!layer.fillStyleId){
-      
+
       //creating the paint style
       var newStyle = figma.createPaintStyle()
       var hex = findTheHEX(layer.fills[0].color.r, layer.fills[0].color.g, layer.fills[0].color.b)
@@ -31,16 +32,22 @@ ref.forEach((layer:any) => {
       newStyle.name = layer.name
       newStyle.description = hex.toUpperCase()
 
-      //assigning the color
-      newStyle.paints = [{
-        type: layer.fills[0].type,
-        color: {
-          r: layer.fills[0].color.r,
-          g: layer.fills[0].color.g,
-          b: layer.fills[0].color.b
-        },
-        opacity: layer.fills[0].opacity
-      }]
+      //assigning the colors
+      layer.fills.forEach(item => {
+        colors.push({
+          type: item.type,
+          visible: item.visible,
+          blendMode: item.blendMode,
+          color: {
+            r: item.color.r,
+            g: item.color.g,
+            b: item.color.b
+          },
+          opacity: item.opacity
+          })
+      });
+
+      newStyle.paints = colors
 
       //applying the style to the selected layer
       layer.fillStyleId = newStyle.id
@@ -51,7 +58,7 @@ ref.forEach((layer:any) => {
     } else {
       ignoredCounter++
     }
-    
+
 
   } else {
     figma.closePlugin('Please select a Rectanle, Ellipse, or Polygon before running this plugin')
