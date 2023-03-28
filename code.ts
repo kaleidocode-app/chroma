@@ -20,10 +20,17 @@ ref.forEach((layer:any) => {
 
   // fills
   if (layer.fills.length > 0) {
+    console.log('layer has fills')
     let colors = []
     let newStyle = figma.createPaintStyle()
+
+    // single layer
     if (layer.fills.length == 1) {
-      newStyle.description = findTheHEX(layer.fills[0].color.r, layer.fills[0].color.g, layer.fills[0].color.b).toUpperCase()
+      // skip description for gradients
+      if(layer.fills[0].type != 'GRADIENT_ANGULAR'){
+        newStyle.description = findTheHEX(layer.fills[0].color.r, layer.fills[0].color.g, layer.fills[0].color.b).toUpperCase()
+      }
+      console.log('newStyle.description: ' + newStyle.description)
     }
 
     newStyle.name = layer.name
