@@ -15,16 +15,17 @@ ref.sort(function (a, b) {
 ref.forEach((layer) => {
     // fills
     if (layer.fills.length > 0) {
-        console.log('layer has fills');
         let colors = [];
         let newStyle = figma.createPaintStyle();
-        // single layer
+        // only create description for single layer color fills
         if (layer.fills.length == 1) {
             // skip description for gradients
-            if (layer.fills[0].type != 'GRADIENT_ANGULAR') {
+            if (layer.fills[0].type == 'GRADIENT_ANGULAR' || layer.fills[0].type == 'GRADIENT_DIAMOND' || layer.fills[0].type == 'GRADIENT_LINEAR' || layer.fills[0].type == 'GRADIENT_RADIAL') {
+                console.log('skipping gradients');
+            }
+            else {
                 newStyle.description = findTheHEX(layer.fills[0].color.r, layer.fills[0].color.g, layer.fills[0].color.b).toUpperCase();
             }
-            console.log('newStyle.description: ' + newStyle.description);
         }
         newStyle.name = layer.name;
         layer.fills.forEach(item => {
@@ -32,6 +33,7 @@ ref.forEach((layer) => {
         });
         newStyle.paints = colors;
         layer.fillStyleId = newStyle.id;
+        console.log(`+Added: ${newStyle.name}`);
         colors.length = 0;
         addedCounter++;
     }
